@@ -1,41 +1,55 @@
 package practice;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.IntToDoubleFunction;
+
+abstract class Chara{
+	private String name;
+	private int age;
+	public Chara(String n, int a) {this.name=n;	this.age=a;	}
+	public abstract void sleep();
+	public String getName(){return name;}
+	public void setName(String name) {this.name = name;}
+	public int getAge() {return age;}
+	public void setAge(int age) {this.age = age;}
+}
+class Dad extends Chara{public Dad(String n, int a){super(n,a);}
+	@Override	public void sleep(){System.out.println("Dad is sleeping");}}
+class Mam extends Chara{public Mam(String n, int a){super(n,a);}
+	@Override	public void sleep(){System.out.println("Mam is sleeping");}}
+class San extends Chara{public San(String n, int a){super(n,a);}
+	@Override	public void sleep() {System.out.println("San is sleeping");}}
+
 
 public class Main {
 
-	interface MyFunc{
-		public abstract int myfunc(int a, int b);
-	}
-	interface MyFunc2{
-		public abstract long myfunc2(MyFunc mf, int a,int b);
-	}
-	interface Herofunc{
-		public abstract String hf(Hero h);
-	}
-	interface Datefunc{
-		public abstract long df(Date d);
-	}
-
-
     public static void main(String[] args) {
-    	int a = 7;
-//    	int b = 10;
-    	MyFunc i = (x,y) -> {return x*y;};
-    	MyFunc2 i2 = (mf,  x,  y) -> {return mf.myfunc(x, y)*mf.myfunc(x, y)/x;};
-    	System.out.println("i "+i.myfunc(a, a));
-    	System.out.println("i2 "+i2.myfunc2(i, a, a));
-    	Hero hh = new Hero();
-    	String str = "hello";
-    	Herofunc g = h -> h.getName()+","+str;
-    	hh.setHp(2);
-    	System.out.println(g.hf(hh));
+    	List<Chara> family = new ArrayList<>();
 
-    	Datefunc d =(Date date)->date.getTime();
-    	System.out.println(d.df(new Date()));
+    	Chara m = new Mam("Mam",30); Chara d = new Dad("Dad",33); Chara s = new San("San",3);
+
+    	Chara[] cs = {m,d,s};/*new Chara[3]*/;
+
+
+//		Chara[] cha = { d }; /*この記述をすると「Chara d = new Chara("Dad");」がエラーになる。なぜ？*/ A.Main内で定義してたから。
+
+    	System.out.println("---");
+
+    	for (int i = 0; i < 3; i++) {
+			family.add(cs[i]);
+		}
+    	for(Chara c : family) {
+    		c.sleep();
+    	}
+    	int i = 1000;
+		IntToDoubleFunction dt = x -> x * x * i; /*省略時も変数アクセス可能*/
+    	System.out.println(dt.applyAsDouble(3));
+
+
+    	family.stream().forEach(q -> q.sleep());
+//    	[family.stream()]のfamilyで、もうfamilyリストの一つ一つという意味が分かっているのだろう。
+//    	(Charaということが)。よって、foreach()内の変数はqじゃなくても、何でもいいと思われる。
 	}
-//    =の右辺で作った関数と同型の関数型を左辺に用意しなければならない。 左辺と右辺の変数名と引数名は同じではいけない。
-//   「左辺=右辺」    で関数完成、とイメージしたほうがいい。出力はそのあと。 System.out.println(左辺変数.メソッド());で出力。
-//    省略について右辺の引数の型は省略可能。
-//    右辺の引数が一つの場合、()と｛｝は省略可能。変数にアクセス可能だが、実質final。書き換えたらエラー。
+
 }
