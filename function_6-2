@@ -1,0 +1,28 @@
+package practice;
+
+interface Func1{
+	public abstract boolean isodd(int c);
+}
+interface Func2{
+	public abstract String addNameP(boolean b, String s);
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+    	Func1 func1 = x -> x%2==1;
+    	Func2 func2 = (boolean b, String s) -> {
+    		if(b==true) return "Mr."+s;
+    		else return "Ms."+s;
+    	};
+
+    	int h=10;
+    	boolean male = false;
+    	String name = "fukuda";
+    	System.out.println(func1.isodd(h));
+
+    	System.out.println(func2.addNameP(male, name));
+
+	}
+
+}
